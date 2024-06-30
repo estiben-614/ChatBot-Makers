@@ -3,18 +3,17 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://estiben614.github.io/ChatBot-Makers/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "predeploy": "yarn build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "yarn build && gh-pages -d dist"
   },
   "dependencies": {
     "@ant-design/charts": "^2.1.1",
     "antd": "^5.18.3",
-    "gh-pages": "^6.1.1",
     "lodash": "^4.17.21",
     "openai": "^4.52.2",
     "react": "^18.3.1",
@@ -28,6 +27,7 @@
     "eslint-plugin-react": "^7.34.2",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "gh-pages": "^6.1.1",
     "vite": "^5.3.1"
   }
 }
