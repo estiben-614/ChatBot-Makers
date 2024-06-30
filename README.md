@@ -1,4 +1,4 @@
-# ChatBot Project
+# ChatBot Makers Project
 
 Welcome to our ChatBot Maker project! This repository houses a chat application powered by the OpenAI API, designed to interactively respond to user queries based on stored inventory information.
 
@@ -32,7 +32,11 @@ Ensure you have the following installed:
 ### Backend
 [Go to the backend repository](https://github.com/JDGuzman2001/Makers-Chatbot-Backend) and follow its step-by-step instructions to run it
 
- 
+
+https://github.com/estiben-614/ChatBot-Makers/assets/92930895/36b341ee-804b-4446-867e-471c68a5676f
+
+
+
 ### Installation
 
 1. Clone the repository.
@@ -44,5 +48,7 @@ Ensure you have the following installed:
 3. Run:
   ```bash
    yarn dev
+
+
 
 
