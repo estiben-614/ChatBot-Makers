@@ -1,15 +1,16 @@
 import { Input, Button, List, Avatar, notification } from 'antd';
 import '../Chat.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import avatarChat from "../assets/avatarChat.jpg";
 import avatarPerson from "../assets/avatarPerson.jpg";
-import { API_KEY, ENDPOINT } from '../utils/data';
+import { BASE_URL  } from '../utils/data';
 import { SendOutlined } from '@ant-design/icons';
+import { isEmpty } from 'lodash';
 
 const { TextArea } = Input;
 const { Item } = List;
 
-const Chat = ({ inventary }) => {
+const Chat = () => {
 
   const [messages, setMessages] = useState([
     { id: 1, text: "Hello, I'm ChatBot Maker, how can I assist you with your inventory?", user: 'chat' },
@@ -21,29 +22,16 @@ const Chat = ({ inventary }) => {
   };
 
   const fetchResponse = async () => {
+
+    const dataForm = new FormData();
+    dataForm.append('pregunta', newMessage);
     try {
       setIsFetching(true);
-      const response = await fetch(ENDPOINT, {
+      const response = await fetch(`${BASE_URL}/chatbot`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${API_KEY}`,
-        },
-        body:JSON.stringify({
-          "model":"gpt-3.5-turbo",
-          "messages":[
-            { "role":"system",
-              "content":
-              ` You are an inventory assistant, helping the user.
-                This is the current information ${inventary || {}}, analyzed.`,
-            },
-
-            { "role":"user",
-              "content": newMessage },
-          ],
-        }),
+        body: dataForm,
       });
-  
+
       if (!response.ok) {
         setIsFetching(false);
         return notification.error({
@@ -60,9 +48,9 @@ const Chat = ({ inventary }) => {
         text: data,
         user: 'chat',
       };
-      setMessages([...messages, newMsg]);
-      setNewMessage('');
       setIsFetching(false);
+      setNewMessage('');
+      setMessages((prevMessages) => [...prevMessages, newMsg]);
 
     } catch (error) {
       console.error('Error: ', error);
@@ -83,12 +71,17 @@ const Chat = ({ inventary }) => {
         text: newMessage,
         user: 'user',
       };
-      setMessages([...messages, newMsg]);
-      setNewMessage('');
+      setMessages((prevMessages) => [...prevMessages, newMsg]);
 
-      fetchResponse();
     }
   };
+
+  useEffect(() => {
+    if (messages && !isEmpty(newMessage)) {
+      fetchResponse();
+    }
+    
+  }, [messages]);
 
   return (
     <div className="chat-container">

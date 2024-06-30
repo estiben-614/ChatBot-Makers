@@ -14,14 +14,14 @@ export default function InventaryForm({ initialValues = {}, onSubmit, onSubmitDe
   
   return (
     <Form initialValues={initialValues} onFinish={onSubmit} form={form}>
-      <Item name="key" hidden />
+      <Item name="id" hidden />
       <Row justify="space-between">
         <Item
-          name="computer"
+          name="brand"
           style={{ width: 200 }}
           rules={[{ required: true }]}
         >
-          <Input size="large" />
+          <Input size="large" placeholder='Computer'/>
         </Item>
 
         <Item
@@ -29,7 +29,7 @@ export default function InventaryForm({ initialValues = {}, onSubmit, onSubmitDe
           style={{ width: 100 }}
           rules={[{ required: true }]}
         >
-          <InputNumber size="large" min={1} />
+          <InputNumber size="large" min={1} placeholder='Quantity'/>
         </Item>
 
         <Item
@@ -37,14 +37,14 @@ export default function InventaryForm({ initialValues = {}, onSubmit, onSubmitDe
           style={{ width: 100 }}
           rules={[{ required: true }]}
         >
-          <InputNumber size="large"   min={1}/>
+          <InputNumber size="large"   min={1} placeholder='Price'/>
         </Item>
 
         <Item
           name="total"
           style={{ width: 100 }}
           dependencies={['quantity', 'price']}
-          initialValue={0}
+          initialValue={(initialValues?.quantity * initialValues?.price) ?? 0}
           rules={[
             ({ getFieldValue, setFieldValue }) => ({
               validator: () => {

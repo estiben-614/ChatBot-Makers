@@ -4,12 +4,11 @@ import { renderStatistic } from '../utils/data';
 
 const ChartComponent = ({ inventory = {} }) => {
 
-
   const config = {
     appendPadding: 10,
     data: inventory, 
     angleField: 'quantity',
-    colorField: 'computer',
+    colorField: 'brand',
     radius: 1,
     innerRadius: 0.64,
     meta: {
