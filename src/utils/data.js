@@ -1,6 +1,6 @@
 import { measureTextWidth } from "@ant-design/charts";
 
-export const BASE_URL = 'https://1844-2800-e2-c80-11ca-b346-15e3-8dd5-3dda.ngrok-free.app';
+export const BASE_URL = 'http://localhost:8080';
 export const columns = [
   {
     title: 'Brand',
