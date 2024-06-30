@@ -1,4 +1,4 @@
-import { Button, Form, Input, InputNumber, Row, Space } from 'antd';
+import { Button, Form, Input, InputNumber, Popconfirm, Row, Space } from 'antd';
 import { EditOutlined, DeleteOutlined, SaveOutlined } from '@ant-design/icons';
 import { isEmpty } from 'lodash';
 import { useEffect } from 'react';
@@ -44,6 +44,7 @@ export default function InventaryForm({ initialValues = {}, onSubmit, onSubmitDe
           name="total"
           style={{ width: 100 }}
           dependencies={['quantity', 'price']}
+          initialValue={0}
           rules={[
             ({ getFieldValue, setFieldValue }) => ({
               validator: () => {
@@ -76,23 +77,31 @@ export default function InventaryForm({ initialValues = {}, onSubmit, onSubmitDe
           : (
             <>
               <Space>
-                {
-                  (onSubmitDelete) && (
-                    <Item>
-                      <Button
-                        icon={<DeleteOutlined />}
-                        onClick={() => onSubmitDelete(initialValues)}
-                        danger
-                      />
-                    </Item>
-                  )
-                }
-                
+
                 <Item>
                   <Button icon={<EditOutlined />}  htmlType="submit" type="dashed">
                     Edit
                   </Button>
                 </Item>
+                {
+                  (onSubmitDelete) && (
+                    <Item>
+                      <Popconfirm
+                        title="Delete"
+                        description="Are you sure to delete this element?"
+                        onConfirm={() => onSubmitDelete(initialValues)}
+                        okText="Yes"
+                      >
+                        <Button
+                          icon={<DeleteOutlined />}
+                          danger
+                        />
+                      </Popconfirm>
+                      
+                    </Item>
+                  )
+                }
+                
                 
               </Space>
             </>

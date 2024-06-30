@@ -1,11 +1,10 @@
-import { Input, Button, List, Avatar } from 'antd';
+import { Input, Button, List, Avatar, notification } from 'antd';
 import '../Chat.css';
 import { useState } from 'react';
 import avatarChat from "../assets/avatarChat.jpg";
 import avatarPerson from "../assets/avatarPerson.jpg";
 import { API_KEY, ENDPOINT } from '../utils/data';
 import { SendOutlined } from '@ant-design/icons';
-
 
 const { TextArea } = Input;
 const { Item } = List;
@@ -16,13 +15,14 @@ const Chat = ({ inventary }) => {
     { id: 1, text: "Hello, I'm ChatBot Maker, how can I assist you with your inventory?", user: 'chat' },
   ]);
   const [newMessage, setNewMessage] = useState('');
-
+  const [isFetching, setIsFetching] = useState(false);
   const handleInputChange = (event) => {
     setNewMessage(event.target.value);
   };
 
   const fetchResponse = async () => {
     try {
+      setIsFetching(true);
       const response = await fetch(ENDPOINT, {
         method: 'POST',
         headers: {
@@ -45,7 +45,11 @@ const Chat = ({ inventary }) => {
       });
   
       if (!response.ok) {
-        throw new Error('Error making the request to the API');
+        setIsFetching(false);
+        return notification.error({
+          description: 'Error making the request to the API',
+          message: 'Error',
+        });
       }
   
       const data = await response.json();
@@ -58,9 +62,16 @@ const Chat = ({ inventary }) => {
       };
       setMessages([...messages, newMsg]);
       setNewMessage('');
+      setIsFetching(false);
 
     } catch (error) {
       console.error('Error: ', error);
+
+      notification.error({
+        description: 'Error',
+        message: error,
+      });
+      setIsFetching(false);
       return null;
     }
   };
@@ -86,16 +97,29 @@ const Chat = ({ inventary }) => {
           itemLayout="horizontal"
           dataSource={messages}
           renderItem={(message) => (
-            <Item>
-              <Item.Meta
-                avatar={message.user === 'chat'
-                  ? <Avatar src={avatarChat} />
-                  : <Avatar src={avatarPerson} /> }
-                title={<div className="message-text">{message.text}</div>}
-              />
-            </Item>
+            <>
+              <Item>
+                <Item.Meta
+                  avatar={message.user === 'chat'
+                    ? <Avatar src={avatarChat} />
+                    : <Avatar src={avatarPerson} /> }
+                  title={<div className="message-text">{message.text}</div>}
+                />
+              
+              </Item>
+            </>
           )}
         />
+        {
+          (isFetching) && (
+            <Item style={{ textAlign: 'center' }}>
+              <Item.Meta
+                avatar={<Avatar src={avatarChat} />}
+                title={<div className="message-text">Typing...</div>}
+              />
+            </Item>
+          )
+        }
       </div>
       <div className="chat-input">
         <TextArea
@@ -108,6 +132,8 @@ const Chat = ({ inventary }) => {
           type="primary"
           onClick={onHandleSendMessage}
           icon={<SendOutlined />}
+          style={{ width: '100%', marginTop: 10 }}
+          disabled={isFetching}
         >
           Send
         </Button>

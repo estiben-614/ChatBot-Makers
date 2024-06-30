@@ -7,14 +7,16 @@
   }
   
   .chat-messages {
-    height: calc(100% - 100px);
+    height: calc(100% - 130px);
     overflow-y: auto;
   }
   
   .chat-input {
     display: flex;
-    align-items: center;
     padding: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
   }
   
   .message-text {

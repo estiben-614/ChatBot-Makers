@@ -1,18 +1,10 @@
-import { Pie, measureTextWidth } from '@ant-design/plots';
+import { Pie } from '@ant-design/plots';
+import { renderStatistic } from '../utils/data';
+
+
 const ChartComponent = ({ inventory = {} }) => {
-  function renderStatistic(containerWidth, text, style) {
-    const { width: textWidth, height: textHeight } = measureTextWidth(text, style);
-    const R = containerWidth / 2;
 
-    let scale = 1;
 
-    if (containerWidth < textWidth) {
-      scale = Math.min(Math.sqrt(Math.abs(Math.pow(R, 2) / (Math.pow(textWidth / 2, 2) + Math.pow(textHeight, 2)))), 1);
-    }
-
-    const textStyleStr = `width:${containerWidth}px;`;
-    return `<div style="${textStyleStr};font-size:${scale}em;line-height:${scale < 1 ? 1 : 'inherit'};">${text}</div>`;
-  }
   const config = {
     appendPadding: 10,
     data: inventory, 
@@ -72,6 +64,7 @@ const ChartComponent = ({ inventory = {} }) => {
       },
     ],
   };
+
   return <Pie {...config} />;
 };
 

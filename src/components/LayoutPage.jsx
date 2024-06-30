@@ -44,13 +44,14 @@ const LayoutPage = () => {
       <Content
         style={{
           padding: '0 48px',
+          marginTop: 30,
         }}
       >
         <div
           style={{
             background: colorBgContainer,
-            height: '100vh',
-            padding: 24,
+            height: '100%',
+            padding: 10,
             borderRadius: borderRadiusLG,
           }}
         >
